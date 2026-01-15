@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/home/acoder/Code/qemu_stuff/tools/fat'
+let g:netrw_dirhist_5='/home/acoder/Code/qemu_stuff/tools'
+let g:netrw_dirhist_4='/home/acoder/Code/qemu_stuff'
+let g:netrw_dirhist_3='/home/acoder/Code/cp'
+let g:netrw_dirhist_2='/home/acoder/Code/qemu_stuff/src/bootloader'
+let g:netrw_dirhist_1='/home/acoder/Code/qemu_stuff/src'
+let g:netrw_dirhist_0='/home/acoder/Code/qemu_stuff/src/kernel'
+let g:netrw_dirhist_9='/home/acoder/Code/qemu_stuff/src'
+let g:netrw_dirhist_8='/home/acoder/Code/qemu_stuff'
+let g:netrw_dirhist_7='/home/acoder/pooky_os/src/kernel'

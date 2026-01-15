@@ -1,0 +1,109 @@
+" =========================
+" Core sanity
+" =========================
+set nocompatible
+set ruler
+set backspace=indent,eol,start
+set number
+set relativenumber
+let mapleader=" "
+
+" ===== Indentation settings =====
+set tabstop=4        " Number of spaces a <Tab> counts for
+set shiftwidth=4     " Number of spaces for autoindent
+set expandtab        " Use spaces instead of tabs
+set autoindent       " Copy indent from current line
+set smartindent
+set scrolloff=10     " always show 10 lines below the cursor
+set sidescrolloff=5   " horizontal scroll
+
+" Enable filetype-based indentation & plugins
+filetype plugin indent on
+
+
+" Encoding
+if v:lang =~? 'utf-8$'
+  set fileencodings=ucs-bom,utf-8,latin1
+endif
+
+" =========================
+" Visual clarity
+" =========================
+syntax on
+set nohlsearch
+
+" Kill bracket highlighting (IMPORTANT)
+""let g:loaded_matchparen = 1
+
+" Cursor clarity (recommended)
+set cursorline
+highlight CursorLine cterm=underline gui=underline
+
+" =========================
+" Restore cursor position
+" =========================
+augroup restore_cursor
+  autocmd!
+  autocmd BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \   execute "normal! g'\"" |
+        \ endif
+augroup END
+
+" =========================
+" netrw (minimal, usable)
+" =========================
+let g:netrw_banner=0
+let g:netrw_hide=1
+let g:netrw_list_hide='\.git$,.*\.swp$'
+
+nnoremap <Leader>e :Explore<CR>
+nnoremap <Leader>v :Vexplore<CR>
+nnoremap <Leader>s :Sexplore<CR>
+
+" =========================
+" Bracket / quote pairing
+" =========================
+
+function! InComment()
+  return synIDattr(synID(line('.'), col('.'), 1), 'name') =~? 'comment'
+endfunction
+
+inoremap <expr> ( InComment() ? '(' : (getline('.')[col('.')-1]==')' ? '(' : '()<Left>')
+inoremap <expr> [ InComment() ? '[' : (getline('.')[col('.')-1]==']' ? '[' : '[]<Left>')
+inoremap <expr> { InComment() ? '{' : (getline('.')[col('.')-1]=='}' ? '{' : '{}<Left>')
+inoremap <expr> " InComment() ? '"' : (getline('.')[col('.')-1]=='"' ? '"' : '""<Left>')
+inoremap <expr> ' InComment() ? "'" : (getline('.')[col('.')-1]=="'" ? "'" : "''<Left>")
+
+
+" Smart backspace for paired characters
+inoremap <expr> <BS> SmartBS()
+
+function! SmartBS()
+  let col = col('.') - 1
+  if col <= 0
+    return "\<BS>"
+  endif
+
+  let line = getline('.')
+  let prev = line[col - 1]
+  let curr = line[col]
+
+  if (prev == '(' && curr == ')') ||
+     \ (prev == '[' && curr == ']') ||
+     \ (prev == '{' && curr == '}') ||
+     \ (prev == '"' && curr == '"') ||
+     \ (prev == "'" && curr == "'")
+    return "\<Del>\<BS>"
+  endif
+
+  return "\<BS>"
+endfunction
+
+
+
+" =========================
+" Clipboard (Wayland)
+" =========================
+set clipboard=unnamedplus
+
